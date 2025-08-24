@@ -1,104 +1,75 @@
-## 📌 Step 1: `requirements.txt`
-
-Since you’re using:
-
-* **FAISS** for vector search
-* **PyPDF2 / pdfplumber** (depending on what you used for text extraction)
-* **dotenv** for API key loading
-* **Google Generative AI (Gemini)** SDK
-* **Pickle** (built-in, no need to install)
-
-Here’s a safe minimal file:
-
-```txt
-faiss-cpu==1.8.0
-PyPDF2==3.0.1
-python-dotenv==1.0.1
-google-generativeai==0.7.2
-tqdm==4.66.4
-```
-
-👉 If you also used `pdfplumber` instead of `PyPDF2`, add:
-
-```txt
-pdfplumber==0.11.0
-```
-
----
-
-## 📌 Step 2: `README.md`
-
-Here’s a clean version you can drop in root:
-
-```markdown
 # 📚 NCERT RAG Assistant
 
-A Retrieval-Augmented Generation (RAG) project that allows you to **ask questions from NCERT textbooks** and get accurate, context-aware answers using **Gemini AI + FAISS vector search**.
+A Retrieval-Augmented Generation (RAG) project that allows you to ask questions from NCERT textbooks and get context-aware answers using Google Gemini AI + FAISS vector search.
 
 ---
 
 ## ✨ Features
 - Extracts text from NCERT PDFs
-- Splits into semantic chunks & stores embeddings in FAISS
-- Asks natural language questions from textbooks
-- Uses **Google Gemini API** for final answers
-- CLI-based Q&A interface (web app planned)
+- Splits text into semantic chunks & stores embeddings in FAISS
+- Supports natural language questions on textbooks
+- Uses Google Gemini API for final answers
+- CLI-based Q&A interface (Web UI coming soon)
 
 ---
 
 ## 📂 Project Structure
-```
 
-.
-├── data
-│   ├── pdfs/                 # NCERT PDFs
-│   ├── chunks.pkl            # Stored text chunks
-│   └── chunks\_index.faiss    # FAISS index
-├── prompts
-│   └── qa\_prompt.txt         # Prompt template for Gemini
-├── src
-│   ├── build\_vector\_store.py # PDF → Chunks → Embeddings → FAISS
-│   └── qa\_cli.py             # CLI chatbot for Q\&A
-├── .env                      # Gemini API key here
+```
+ncert-rag-assistant/
+├── data/
+│   ├── pdfs/
+│   ├── chunks.pkl
+│   └── chunks_index.faiss
+├── prompts/
+│   └── qa_prompt.txt
+├── src/
+│   ├── build_vector_store.py
+│   └── qa_cli.py
+├── .env
 ├── requirements.txt
 └── README.md
-
-````
+```
 
 ---
 
 ## ⚙️ Setup Instructions
 
-### 1. Clone repo
+### 1. Clone the repository
 ```bash
 git clone https://github.com/your-username/ncert-rag-assistant.git
 cd ncert-rag-assistant
-````
+```
 
 ### 2. Install dependencies
-
 ```bash
 pip install -r requirements.txt
 ```
 
+Example requirements.txt:
+```
+faiss-cpu==1.8.0
+PyPDF2==3.0.1
+python-dotenv==1.0.1
+google-generativeai==0.7.2
+tqdm==4.66.4
+# If using pdfplumber instead of PyPDF2:
+pdfplumber==0.11.0
+```
+
 ### 3. Add your API key
-
-Create a `.env` file:
-
+Create a `.env` file in the root folder:
 ```
 GEMINI_API_KEY=your_api_key_here
 ```
 
 ### 4. Build the vector store
-
-Put NCERT PDFs in `data/pdfs/`, then run:
-
+Put NCERT PDFs in `data/pdfs/` and run:
 ```bash
 python src/build_vector_store.py
 ```
 
-### 5. Start Q\&A
-
+### 5. Start Q&A
 ```bash
 python src/qa_cli.py
 ```
@@ -106,14 +77,24 @@ python src/qa_cli.py
 ---
 
 ## 💡 Example Usage
-
 ```
 ❓ Your Question: What is reproduction in animals?
 📘 Answer: Reproduction is essential for the continuation of a species...
 ```
 
+---
 
+## 📌 Notes
+- FAISS stores embeddings locally (`chunks_index.faiss`) for fast retrieval.
+- CLI interface is lightweight; a web interface can be added later.
+- Ensure PDFs are readable and correctly formatted.
 
+---
 
-
-
+## 🛠️ Technologies Used
+- Python 3.x
+- FAISS (Vector Search)
+- PyPDF2 / pdfplumber (PDF text extraction)
+- Google Gemini AI
+- dotenv for environment variables
+- Pickle for storing chunks
